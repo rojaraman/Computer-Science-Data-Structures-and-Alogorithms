@@ -1,0 +1,223 @@
+1. Two Sum 
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        
+        mapp = {}
+        for i in range(len(nums)):
+            mapp[nums[i]] = i
+        for i,v in enumerate(nums):
+            val = target - v
+            if val in mapp.keys():
+                if(mapp.get(val) != i):
+                    return [i,mapp.get(val)]
+        
+		
+2. 	Binary tree travesal:
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        result = []
+        queue=[root]
+        if not root:
+            return result
+        while len(queue)!=0:
+            
+            value=[]
+            node=[]
+            while len(queue)!=0:
+                node.append(queue.pop(0))
+            for node in node:
+                value.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result.append(value)
+        return result
+		
+3. Reverse the string 
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
+        """
+        #s.reverse()
+        
+        leng = len(s) - 2
+        n = -2
+        while leng >= 0:
+            y = s.pop(n)
+            s.append(y)
+            n -= 1
+            leng -= 1
+			
+4.  Reverse words 
+class Solution(object):
+    def reverseWords(self, str):
+        """
+        :type str: List[str]
+        :rtype: None Do not return anything, modify str in-place instead.
+        """
+        reversestr = "".join(str)
+        #print reversestr
+        reversestr = reversestr.split(" ")[::-1]
+        #print(reversestr)
+        str[:] = list(" ".join(reversestr))
+		
+		
+5. max sum 
+class Solution(object):
+    def maxSubArrayLen(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        if len(nums) == 0:
+            return 0
+        maxlen = 0
+        currSum = {}
+        currSum[0] = 91
+        ressum = 0
+        for i in range(len(nums)):
+            n = nums[i]
+            ressum += n
+            #print ressum
+            if (ressum - k ) in currSum:
+                length = i - currSum[ressum - k]
+                if length > maxlen:
+                    maxlen = length
+            if ressum not in currSum:
+                currSum[ressum] = i
+        return maxlen
+        
+6. Product of nums except self
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        p = 1 
+        output = []
+        for i in range(n):
+            output.append(p)
+            p *= nums[i]
+            #print p
+        print (output)
+        p = 1
+        for i in range(n-1,-1,-1):
+            output[i] = output[i]*p
+            p*=nums[i]
+        
+        return output
+            
+        
+7. Find duplicate
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        
+        temp = []
+        for n in nums:
+            if n not in temp:
+                temp.append(n)
+            else:
+                return n
+
+8 Linked List - Add 2 numbers
+class Solution(object):
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        dummy = cur = ListNode(0)
+        carry = 0
+        while l1 or l2 or carry:
+            if l1:
+                carry += l1.val
+                l1 = l1.next
+            if l2:
+                carry += l2.val
+                l2 = l2.next
+            cur.next = ListNode(carry%10)
+            cur = cur.next
+            carry //= 10
+        return dummy.next
+		
+9. Intersection of 2 linked list
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        if headA == None or headB == None:
+            return None
+        
+        dictA = []
+        valA = headA
+        valB = headB
+        
+        
+        while valA != valB:
+            if valA != None:
+                valA = valA.next
+            else:
+                valA = headB
+            if valB != None:
+                valB = valB.next
+            else:
+                valB = headA
+        
+        return valA
+
+		
+10. Merge K sorted list
+
+import heapq
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        listSorted = []
+        
+        for list in lists:
+            while list:
+                heapq.heappush(listSorted, list.val)
+                list = list.next
+ 
+        
+        return sorted(listSorted)
+
+		
+11. Symmetric tree
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        
+        return self.sym(root.left ,root.right)
+    
+    def sym(self, l , r):
+        if not l and not r:
+            return True
+        elif l != None and r != None and l.val == r.val:
+            return self.sym(l.right, r.left) and self.sym(l.left , r.right)
+        else:
+            return False
+				
+
